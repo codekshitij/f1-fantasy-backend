@@ -16,6 +16,10 @@ from fastapi.security import OAuth2PasswordBearer
 from datetime import datetime
 import random
 import string
+import os
+import json
+from firebase_admin import credentials, initialize_app
+
 
   
 
@@ -34,8 +38,9 @@ FIREBASE_CREDENTIALS_PATH = os.path.join(BASE_DIR, "firebase-service-account.jso
 
 # ✅ Initialize Firebase Admin SDK (Only Once)
 if not firebase_admin._apps:
-    cred = credentials.Certificate(FIREBASE_CREDENTIALS_PATH)  # 🔥 UPDATE THIS PATH
-    firebase_admin.initialize_app(cred)
+    firebase_json = os.getenv("FIREBASE_CREDENTIALS")
+    cred = credentials.Certificate(json.loads(firebase_json))
+    initialize_app(cred)
 
 
 
