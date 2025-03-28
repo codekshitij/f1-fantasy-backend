@@ -5,14 +5,19 @@ from routes.auth import router as auth_router  # Ensure auth router is imported
 from fastapi.middleware.cors import CORSMiddleware
 from routes.fantasy_team import router as fantasy_team_router
 from routes.fantasy_points import router as fantasy_points_router
+from dotenv import load_dotenv
 
+load_dotenv()
 
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins, or specify ["http://localhost:3008"]
+    allow_origins=[
+    "http://localhost:3000",  # Local dev
+    "https://f1-fantasy-frontend.vercel.app"  # Your Vercel URL
+    ],
     allow_credentials=True,
     allow_methods=["*"],  # Allow all methods
     allow_headers=["*"],  # Allow all headers
