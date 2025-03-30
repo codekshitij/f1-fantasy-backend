@@ -1,39 +1,39 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
 from uuid import UUID
 from typing import Optional
 from datetime import datetime
 
+# ✅ Shared base user
+class UserBase(BaseModel):
+    email: EmailStr
+    name: Optional[str] = None
+
+# ✅ When user registers or completes profile
 class UserRegister(BaseModel):
-    name: str
-    username: str
-    avatar_url: str
-    team: str
+    name: Optional[str] = None
+    username: Optional[str] = None
+    avatar_url: Optional[str] = None
+    team: Optional[str] = None
 
+# ❌ REMOVE this - not needed with Google login
+# class UserCreate(UserBase):
+#     password: str
 
-# ✅ User Login Schema
-class UserCreate(BaseModel):
-    email: EmailStr
-    password: str
+# ❌ REMOVE this too - no login with password
+# class UserLogin(BaseModel):
+#     email: EmailStr
+#     password: str
 
-
-class UserResponse(BaseModel):
+# ✅ Response sent to frontend
+class UserResponse(UserBase):
+    model_config = ConfigDict(from_attributes=True)
+    
     id: UUID
-    name: str
-    username: str
-    email: EmailStr
-    avatar_url: str
-    team: str
-    created_at: str  # ✅ Change this to string
+    username: Optional[str] = None
+    avatar_url: Optional[str] = None
+    team: Optional[str] = None
+    created_at: datetime
 
-    class Config:
-        orm_mode = True  # ✅ Enables ORM support
-        from_attributes = True  # ✅ Ensure correct serialization
-
-        @staticmethod
-        def serialize_datetime(dt: datetime) -> str:
-            return dt.isoformat()  # ✅ Converts to string (ISO 8601)
-
-class UserLogin(BaseModel):
-    email: EmailStr
-    password: str
-
+    @staticmethod
+    def serialize_datetime(dt: datetime) -> str:
+        return dt.isoformat()
