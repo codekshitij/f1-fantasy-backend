@@ -57,7 +57,8 @@ app.add_middleware(
         "http://127.0.0.1:3002",
         "http://127.0.0.1:3003",
         "https://f1-fantasy-league-dee25.firebaseapp.com",
-        "https://f1-fantasy-league-dee25.web.app"
+        "https://f1-fantasy-league-dee25.web.app",
+        "https://f1-dream5.vercel.app"
     ],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
