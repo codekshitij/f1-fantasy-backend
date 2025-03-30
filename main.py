@@ -27,6 +27,8 @@ logger = logging.getLogger(__name__)
 
 # Load environment variables
 load_dotenv()
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = os.getenv("ALGORITHM", "HS256")
 
 # Initialize Firebase Admin SDK
 def init_firebase():
